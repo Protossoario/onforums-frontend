@@ -8,13 +8,15 @@ class CommentComponent extends Component {
     render() {
         return (
             <div className="comment-component">
-                <p className="author-header">
+                <div className="author-header">
                     <span className="author-name">@{ this.props.author }</span>
                     { this.props.replyTo && <span className="reply-to"> → <span className="reply-name">{ this.props.replyTo }</span></span> }
-                </p>
-                <span className="previous">{ this.props.previousSentence } </span>
-                <span className="highlight">{ this.props.highlightSentence }</span>
-                <span className="next"> { this.props.nextSentence }</span>
+                </div>
+                <div className="content">
+                    <span className="previous">{ this.props.previousSentence } </span>
+                    <span className="highlight">{ this.props.highlightSentence }</span>
+                    <span className="next"> { this.props.nextSentence }</span>
+                </div>
             </div>
         );
     }

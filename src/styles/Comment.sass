@@ -1,9 +1,10 @@
 $backgroundColor: #fff
-$borderColor: #999
+$borderColor: #898989
 $defaultColor: #333
 $highlightColor: #fbfeaf
 $authorColor: #1f49e9
 $replyColor: #e5330f
+$hoverBGColor: #f5f5f5
 
 .comment-component
     border: 1px solid $borderColor
@@ -32,3 +33,13 @@ $replyColor: #e5330f
         padding-top: 2.5px
         padding-bottom: 2.5px
         box-shadow: 0px 2.5px 2px 0.05px $borderColor
+
+.comment-component:hover
+    background-color: $hoverBGColor
+
+    .previous, .next
+        color: lighten($borderColor, 5%)
+
+    .highlight
+        background-color: darken($highlightColor, 5%)
+        box-shadow: 0px 3px 2px 0.1px $borderColor
