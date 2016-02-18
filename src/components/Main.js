@@ -3,22 +3,26 @@ require('styles/App.css');
 
 import React from 'react';
 import CommentComponent from 'components/CommentComponent';
+import FocusCommentComponent from 'components/FocusCommentComponent';
 
 class AppComponent extends React.Component {
     render() {
         return (
             <div className="index">
-                { this.props.lines.map((c, ind) => {
-                    return (
-                        <CommentComponent
-                            key={ ind }
-                            author={ c.author }
-                            replyTo={ c.replyTo }
-                            previousSentence={ c.previousSentence }
-                            highlightSentence={ c.highlightSentence }
-                            nextSentence={ c.nextSentence } />
-                    );
-                }) }
+                <div className="main-container">
+                    { this.props.lines.map((c, ind) => {
+                        return (
+                            <CommentComponent
+                                key={ ind }
+                                author={ c.author }
+                                replyTo={ c.replyTo }
+                                previousSentence={ c.previousSentence }
+                                highlightSentence={ c.highlightSentence }
+                                nextSentence={ c.nextSentence } />
+                        );
+                    }) }
+                </div>
+                <FocusCommentComponent />
             </div>
         );
     }
