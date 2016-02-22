@@ -2,15 +2,60 @@ require('normalize.css');
 require('styles/App.css');
 
 import React from 'react';
+import CommentActions from 'actions/CommentActions';
+import FocusActions from 'actions/FocusActions';
+import CommentStore from 'stores/CommentStore';
+import FocusStore from 'stores/FocusStore';
 import CommentComponent from 'components/CommentComponent';
 import FocusCommentComponent from 'components/FocusCommentComponent';
 
 class AppComponent extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {};
+        Object.assign(this.state, CommentStore.getState());
+        Object.assign(this.state, FocusStore.getState());
+        this.onCommentChange = this.onCommentChange.bind(this);
+        this.onFocusChange = this.onFocusChange.bind(this);
+    }
+
+    onCommentChange(state) {
+        this.setState(Object.assign(this.state, state));
+    }
+
+    onFocusChange(state) {
+        this.setState(Object.assign(this.state, state));
+    }
+
+    componentWillMount() {
+        CommentStore.listen(this.onCommentChange);
+        FocusStore.listen(this.onFocusChange);
+
+        CommentActions.setComments(this.props.lines);
+        CommentActions.setLinks(this.props.links);
+    }
+
+    componentWillUnmount() {
+        CommentStore.unlisten(this.onCommentChange);
+        FocusStore.unlisten(this.onFocusChange);
+    }
+
+    handleCommentClick(ind) {
+        FocusActions.setFocusedComment(ind);
+    }
+
+    handleCloseFocus(ev) {
+        ev.preventDefault();
+        FocusActions.setFocusedComment(null);
+    }
+
     render() {
+        const { comments, focusedComment } = this.state;
         return (
             <div className="index">
-                <div className="main-container">
-                    { this.props.lines.map((c, ind) => {
+                <div className="main-container" onClick={ this.handleOutsideClick }>
+                    { comments.map((c, ind) => {
                         return (
                             <CommentComponent
                                 key={ ind }
@@ -18,11 +63,12 @@ class AppComponent extends React.Component {
                                 replyTo={ c.replyTo }
                                 previousSentence={ c.previousSentence }
                                 highlightSentence={ c.highlightSentence }
-                                nextSentence={ c.nextSentence } />
+                                nextSentence={ c.nextSentence }
+                                clickHandler={ this.handleCommentClick.bind(this, ind) } />
                         );
                     }) }
                 </div>
-                <FocusCommentComponent />
+                { focusedComment != null && <FocusCommentComponent closeHandler={ this.handleCloseFocus } /> }
             </div>
         );
     }
@@ -58,11 +104,13 @@ AppComponent.defaultProps = {
     links: [
         {
             source: 2,
-            target: 1
+            target: 1,
+            agree: true
         },
         {
             source: 1,
-            target: 3
+            target: 3,
+            agree: false
         }
     ]
 };

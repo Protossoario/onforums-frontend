@@ -7,7 +7,7 @@ require('styles//Comment.sass');
 class CommentComponent extends Component {
     render() {
         return (
-            <div className="comment-component">
+            <div className="comment-component" onClick={ this.props.clickHandler }>
                 <div className="author-header">
                     <span className="author-name">@{ this.props.author }</span>
                     { this.props.replyTo && <span className="reply-to"> → <span className="reply-name">{ this.props.replyTo }</span></span> }
@@ -30,7 +30,8 @@ CommentComponent.propTypes = {
     replyTo: PropTypes.string,
     highlightSentence: PropTypes.string.isRequired,
     previousSentence: PropTypes.string,
-    nextSentence: PropTypes.string
+    nextSentence: PropTypes.string,
+    clickHandler: PropTypes.func
 };
 // CommentComponent.defaultProps = {};
 
