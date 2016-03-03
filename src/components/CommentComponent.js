@@ -10,6 +10,7 @@ class CommentComponent extends Component {
             <div className="comment-component" onClick={ this.props.clickHandler }>
                 <div className="author-header">
                     <span className="author-name">@{ this.props.author }</span>
+                    { this.props.isArticleSentence && <span className="author-article"> (Article Author)</span> }
                     { this.props.replyTo && <span className="reply-to"> → <span className="reply-name">{ this.props.replyTo }</span></span> }
                 </div>
                 <div className="content">
@@ -26,6 +27,7 @@ CommentComponent.displayName = 'CommentComponent';
 
 // Uncomment properties you need
 CommentComponent.propTypes = {
+    isArticleSentence: PropTypes.bool,
     author: PropTypes.string.isRequired,
     replyTo: PropTypes.string,
     highlightSentence: PropTypes.string.isRequired,
