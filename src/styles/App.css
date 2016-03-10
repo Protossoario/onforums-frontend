@@ -7,41 +7,21 @@ body {
     margin: 0;
 }
 
-.index img {
-    margin: 40px auto;
-    border-radius: 4px;
-    background: #fff;
-    display: block;
-}
-
-.index .notice {
-    margin: 20px auto;
-    padding: 15px 0;
-    text-align: center;
-    border: 1px solid #000;
-    border-width: 1px 0;
-    background: #666;
-}
-
 .index {
-    height: 100%;
-    display: -ms-flexbox;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-box;
-    display: box;
-
-    -ms-flex-direction: row;
-    -webkit-box-orient: horizontal;
-    -moz-box-orient: horizontal;
-    -ms-box-orient: horizontal;
-    box-orient: horizontal;
+    display: flex;
+    flex-direction: row;
+    min-height: 100%;
+    align-items: stretch;
 }
 
 .main-container {
-    -ms-flex: 1;
-    -webkit-box-flex: 1;
-    -moz-box-flex: 1;
-    -ms-box-flex: 1;
-    box-flex: 1;
+    display: flex;
+    order: 1;
+    flex-direction: column;
+}
+
+.side-bar {
+    display: flex;
+    order: 1;
+    flex: 0 0 500px;
 }

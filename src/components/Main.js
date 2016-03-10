@@ -111,7 +111,11 @@ class AppComponent extends React.Component {
                 <div className="main-container" onClick={ this.handleOutsideClick }>
                     { rankedSentences }
                 </div>
-                { focusSidebar }
+                { focusSidebar &&
+                    <div className="side-bar">
+                        { focusSidebar }
+                    </div>
+                }
             </div>
         );
     }
