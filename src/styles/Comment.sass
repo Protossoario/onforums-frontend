@@ -40,7 +40,7 @@ $hoverBGColor: #f5f5f5
         padding-bottom: 2.5px
         box-shadow: 0px 2.5px 2px 0.05px $borderColor
 
-.comment-component:hover
+.comment-component:hover, .comment-component.focused
     background-color: $hoverBGColor
 
     .previous, .next
@@ -49,3 +49,6 @@ $hoverBGColor: #f5f5f5
     .highlight
         background-color: darken($highlightColor, 5%)
         box-shadow: 0px 3px 2px 0.1px $borderColor
+
+.comment-component.focused
+    box-shadow: 0px 0px 3px 3px $highlightColor

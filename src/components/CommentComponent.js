@@ -6,17 +6,18 @@ require('styles//Comment.sass');
 
 class CommentComponent extends Component {
     render() {
+        const { isArticleSentence, author, replyTo, highlightSentence, previousSentence, nextSentence, clickHandler, focused } = this.props;
         return (
-            <div className="comment-component" onClick={ this.props.clickHandler }>
+            <div className={ "comment-component" + (focused ? " focused" : "" ) } onClick={ clickHandler }>
                 <div className="author-header">
-                    <span className="author-name">@{ this.props.author }</span>
-                    { this.props.isArticleSentence && <span className="author-article"> (Article Author)</span> }
-                    { this.props.replyTo && <span className="reply-to"> → <span className="reply-name">{ this.props.replyTo }</span></span> }
+                    <span className="author-name">@{ author }</span>
+                    { isArticleSentence && <span className="author-article"> (Article Author)</span> }
+                    { replyTo && <span className="reply-to"> → <span className="reply-name">{ replyTo }</span></span> }
                 </div>
                 <div className="content">
-                    <span className="previous">{ this.props.previousSentence } </span>
-                    <span className="highlight">{ this.props.highlightSentence }</span>
-                    <span className="next"> { this.props.nextSentence }</span>
+                    <span className="previous">{ previousSentence } </span>
+                    <span className="highlight">{ highlightSentence }</span>
+                    <span className="next"> { nextSentence }</span>
                 </div>
             </div>
         );
@@ -33,7 +34,8 @@ CommentComponent.propTypes = {
     highlightSentence: PropTypes.string.isRequired,
     previousSentence: PropTypes.string,
     nextSentence: PropTypes.string,
-    clickHandler: PropTypes.func
+    clickHandler: PropTypes.func,
+    focused: PropTypes.bool
 };
 // CommentComponent.defaultProps = {};
 

@@ -77,7 +77,8 @@ class AppComponent extends React.Component {
                             previousSentence={ prevSentId ? sentences[prevSentId] : null }
                             highlightSentence={ sentences[sId] }
                             nextSentence={ nextSentId ? sentences[nextSentId] : null }
-                            clickHandler={ this.handleCommentClick.bind(this, sId) } />
+                            clickHandler={ this.handleCommentClick.bind(this, sId) }
+                            focused={ sId === focusedComment } />
                     );
                 }
             }
@@ -88,7 +89,8 @@ class AppComponent extends React.Component {
                     isArticleSentence={ true }
                     author={ this.props.mockAuthorName }
                     highlightSentence={ sentences[sId] }
-                    clickHandler={ this.handleCommentClick.bind(this, sId) } />
+                    clickHandler={ this.handleCommentClick.bind(this, sId) }
+                    focused={ sId === focusedComment } />
             );
         });
 
