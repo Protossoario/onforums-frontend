@@ -22,6 +22,6 @@ body {
 
 .side-bar {
     display: flex;
-    order: 1;
+    order: 0;
     flex: 0 0 500px;
 }
