@@ -20,6 +20,26 @@ body {
     flex-direction: column;
 }
 
+.main-container h1 {
+    margin-left: 15px;
+    margin-bottom: 0;
+    color: #fafafa;
+}
+
+.main-container hr {
+    width: 100%;
+    box-shadow: 0 1px 0 0;
+    border-width: 2px;
+    border-color: #EFEFEF;
+}
+
+.main-container p {
+    margin: 0 0 0 15px;
+    font-style: italic;
+    color: #E0E0E0;
+    font-size: 14px;
+}
+
 .side-bar {
     display: flex;
     order: 0;

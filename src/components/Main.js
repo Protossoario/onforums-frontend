@@ -99,16 +99,28 @@ class AppComponent extends React.Component {
                 r.replySentence = sentences[r.reply];
                 return r;
             });
+            let author = null;
+            for (let cId in comments) {
+                let comment = comments[cId];
+                let sentenceIndex = comment.sentences.indexOf(focusedComment);
+                if (sentenceIndex !== -1) {
+                    author = comment.bloggerId;
+                }
+            }
             focusSidebar = (
                 <FocusCommentComponent
                     sentence={ sentence }
                     replies={ replies }
-                    closeHandler={ this.handleCloseFocus } />
+                    closeHandler={ this.handleCloseFocus }
+                    author={ author ? author : this.props.mockAuthorName } />
             );
         }
         return (
             <div className="index">
                 <div className="main-container" onClick={ this.handleOutsideClick }>
+                    <h1>Most Talked About Comments</h1>
+                    <hr />
+                    <p>Click on a comment to see what others had to say about it</p>
                     { rankedSentences }
                 </div>
                 { focusSidebar &&

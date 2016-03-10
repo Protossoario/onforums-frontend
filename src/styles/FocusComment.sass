@@ -1,12 +1,14 @@
 $width: 500px
 $backgroundColor: #fff
 $defaultColor: #333
+$authorColor: #1f49e9
 $innerMargin: 15px
 $commentPadding: 5px
 $shadow: 0px 2.5px 2px 0.05px #898989
 $strokeText: #fff
 $stroke: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000
 $lineShadow: 0px 2.5px 2px 0.05px #898989
+$marginLeft: 10px
 
 .focuscomment-component
     border: 1px solid $defaultColor
@@ -16,6 +18,17 @@ $lineShadow: 0px 2.5px 2px 0.05px #898989
     width: $width
     height: 100%
 
+    .author-said
+        margin-bottom: 0
+        padding-bottom: 0
+        line-height: 0
+        margin-left: $marginLeft
+        font-style: italic
+
+        .author-name
+            color: $authorColor
+            font-style: normal
+
     hr
         height: 1px
         border: 0
@@ -24,6 +37,11 @@ $lineShadow: 0px 2.5px 2px 0.05px #898989
     .focus
         margin: $innerMargin
         padding: $commentPadding
+
+    .replies-header
+        line-height: 5px
+        margin-left: $marginLeft
+        font-style: italic
 
     .comment
         margin: $innerMargin

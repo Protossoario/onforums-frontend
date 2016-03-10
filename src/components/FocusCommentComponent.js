@@ -10,7 +10,7 @@ require('styles//FocusComment.sass');
 
 class FocusCommentComponent extends Component {
     render() {
-        const { sentence, replies } = this.props;
+        const { sentence, replies, author } = this.props;
         let renderReplies = replies.map((r, ind) => {
             if (r.argument == 'in_favour') {
                 return (
@@ -29,8 +29,10 @@ class FocusCommentComponent extends Component {
         return (
             <div className="focuscomment-component">
                 <a className="close-button" href="#" onClick={ this.props.closeHandler }><FaTimes /></a>
+                <p className="author-said"><span className="author-name">@{ author }</span> said:</p>
                 <p className="focus">{ sentence }</p>
                 <hr />
+                <p className="replies-header">Related comments by other users:</p>
                 { renderReplies }
             </div>
         );
@@ -44,7 +46,8 @@ FocusCommentComponent.propTypes = {
     replies: PropTypes.arrayOf(
         PropTypes.object
     ),
-    closeHandler: PropTypes.func
+    closeHandler: PropTypes.func,
+    author: PropTypes.string
 };
 // FocusCommentComponent.defaultProps = {};
 
