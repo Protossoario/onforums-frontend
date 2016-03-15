@@ -10,16 +10,6 @@ export class CommentStore {
         this.sentenceRanking = {};
     }
 
-    getCommentForSentence(sId) {
-        for (let cId in this.comments) {
-            let comment = this.comments[cId];
-            if (comment.sentences.indexOf(sId) !== -1) {
-                return comment;
-            }
-        }
-        return null;
-    }
-
     onSetSentences(data) {
         const { sentences } = data;
         this.sentences = sentences;

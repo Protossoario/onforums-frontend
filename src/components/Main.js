@@ -2,6 +2,8 @@ require('normalize.css');
 require('styles/App.css');
 
 import React from 'react';
+import ArticleActions from 'actions/ArticleActions';
+import ArticleStore from 'stores/ArticleStore';
 import CommentActions from 'actions/CommentActions';
 import FocusActions from 'actions/FocusActions';
 import CommentStore from 'stores/CommentStore';
@@ -14,8 +16,10 @@ class AppComponent extends React.Component {
         super(props);
 
         this.state = {};
+        Object.assign(this.state, ArticleStore.getState());
         Object.assign(this.state, CommentStore.getState());
         Object.assign(this.state, FocusStore.getState());
+        this.onArticleChange = this.onArticleChange.bind(this);
         this.onCommentChange = this.onCommentChange.bind(this);
         this.onFocusChange = this.onFocusChange.bind(this);
     }
@@ -28,7 +32,12 @@ class AppComponent extends React.Component {
         this.setState(Object.assign(this.state, state));
     }
 
+    onArticleChange(state) {
+        this.setState(Object.assign(this.state, state));
+    }
+
     componentWillMount() {
+        ArticleStore.listen(this.onArticleChange);
         CommentStore.listen(this.onCommentChange);
         FocusStore.listen(this.onFocusChange);
 
@@ -39,6 +48,7 @@ class AppComponent extends React.Component {
     }
 
     componentWillUnmount() {
+        ArticleStore.unlisten(this.onArticleChange);
         CommentStore.unlisten(this.onCommentChange);
         FocusStore.unlisten(this.onFocusChange);
     }
@@ -52,8 +62,21 @@ class AppComponent extends React.Component {
         FocusActions.setFocusedComment(null);
     }
 
+    handleInputChange() {
+        ArticleActions.setArticleURL(this.refs.inputURL.value);
+    }
+
+    handleArticleSubmit() {
+        if (this.state.articleURL) {
+            ArticleActions.summarize(this.state.articleURL);
+        }
+        else {
+            ArticleActions.setSummaryErrorMsg('The article URL cannot be empty.');
+        }
+    }
+
     render() {
-        const { comments, focusedComment, sentences, sentenceRanking, sentenceLinks } = this.state;
+        const { articleURL, loadingSummary, summaryErrorMsg, comments, focusedComment, sentences, sentenceRanking, sentenceLinks } = this.state;
         let rankedSentences = Object.keys(sentenceRanking).map((sId) => {
             for (let cId in comments) {
                 let comment = comments[cId];
@@ -119,13 +142,23 @@ class AppComponent extends React.Component {
         }
         return (
             <div className="index">
-                <div className="main-container" onClick={ this.handleOutsideClick }>
-                    <h1>Most Talked About Comments</h1>
-                    <hr />
-                    <p>Click on a comment to see what others had to say about it</p>
-                    { rankedSentences }
+                <div className="main-container">
+                    <div className="input">
+                        <input type="text" id="inputURL" className="button" ref="inputURL" value={ articleURL } placeholder="Type the URL of the article to be summarized" onChange={ this.handleInputChange.bind(this) } />
+                        <input type="submit" id="submitButton" className="button" value="Summarize!" onClick={ this.handleArticleSubmit.bind(this) } />
+                    </div>
+                    <p>{ summaryErrorMsg }</p>
+                    { loadingSummary && <p>Loading...</p> }
+                    { !loadingSummary &&
+                        <div className="summary">
+                            <h1>Most Talked About Comments</h1>
+                            <hr />
+                            <p>Click on a comment to see what others had to say about it</p>
+                            { rankedSentences }
+                        </div>
+                    }
                 </div>
-                { focusSidebar &&
+                { !loadingSummary && focusSidebar &&
                     <div className="side-bar">
                         { focusSidebar }
                     </div>

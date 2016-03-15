@@ -45,3 +45,54 @@ body {
     order: 0;
     flex: 0 0 500px;
 }
+
+.input {
+    margin: 10px;
+    display: flex;
+    align-items: center;
+    min-width: 600px;
+}
+
+
+.button {
+    height: 44px;
+    border: none;
+}
+
+
+#inputURL {
+    width: 75%;
+    background: #FDFCFB;
+    font-family: inherit;
+    color: #737373;
+    letter-spacing: 1px;
+    text-indent: 5%;
+    border-radius: 5px 0 0 5px;
+}
+
+
+#submitButton {
+    width: 25%;
+    height: 46px;
+    background: #0A99FF;
+    font-family: inherit;
+    font-weight: bold;
+    color: inherit;
+    letter-spacing: 1px;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    transition: background .3s ease-in-out;
+    text-align: center;
+}
+
+
+#submitButton:hover {
+    background: #087CCF;
+}
+
+
+input:focus {
+    outline: none;
+    outline: 2px solid #0A99FF;
+    box-shadow: 0 0 2px #0A99FF;
+}
