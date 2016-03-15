@@ -7,7 +7,7 @@ export class CommentStore {
         this.comments = {};
         this.sentenceLinks = {};
         this.sentences = {};
-        this.sentenceRanking = {};
+        this.sentenceRanking = [];
     }
 
     onSetSentences(data) {

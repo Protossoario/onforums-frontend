@@ -8,6 +8,7 @@ export class ArticleStore {
         this.articleURL = '';
         this.loadingSummary = false;
         this.summaryErrorMsg = '';
+        this.authorName = '';
     }
 
     onSetArticleURL(data) {
@@ -33,6 +34,11 @@ export class ArticleStore {
     onSetSummaryErrorMsg(data) {
         const { errorMsg } = data;
         this.summaryErrorMsg = errorMsg;
+    }
+
+    onSetAuthorName(data) {
+        const { authorName } = data;
+        this.authorName = authorName;
     }
 }
 

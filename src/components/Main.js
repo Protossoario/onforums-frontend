@@ -71,7 +71,7 @@ class AppComponent extends React.Component {
 
     render() {
         const { articleURL, loadingSummary, summaryErrorMsg, comments, focusedComment, sentences, sentenceRanking, sentenceLinks } = this.state;
-        let rankedSentences = Object.keys(sentenceRanking).map((sId) => {
+        let rankedSentences = sentenceRanking.map((sId) => {
             for (let cId in comments) {
                 let comment = comments[cId];
                 let sentenceIndex = comment.sentences.indexOf(sId);
@@ -143,7 +143,7 @@ class AppComponent extends React.Component {
                     </div>
                     <p>{ summaryErrorMsg }</p>
                     { loadingSummary && <p>Loading...</p> }
-                    { !loadingSummary &&
+                    { !loadingSummary && Object.keys(sentences).length !== 0 &&
                         <div className="summary">
                             <h1>Most Talked About Comments</h1>
                             <hr />

@@ -24,6 +24,7 @@ class ArticleActions {
                     CommentActions.setLinks(summary.links);
                     CommentActions.setSentences(summary.sentences);
                     CommentActions.setSentenceRanking(summary.ranking);
+                    this.setAuthorName(summary.author)
                     this.loadSummarySuccess();
                 }
                 else if (response.data.status === 'processing') {
@@ -49,6 +50,10 @@ class ArticleActions {
 
     setSummaryErrorMsg(errorMsg) {
         return { errorMsg };
+    }
+
+    setAuthorName(authorName) {
+        return { authorName };
     }
 }
 
