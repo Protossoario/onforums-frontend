@@ -4,7 +4,6 @@ require('styles/App.css');
 import React from 'react';
 import ArticleActions from 'actions/ArticleActions';
 import ArticleStore from 'stores/ArticleStore';
-import CommentActions from 'actions/CommentActions';
 import FocusActions from 'actions/FocusActions';
 import CommentStore from 'stores/CommentStore';
 import FocusStore from 'stores/FocusStore';
@@ -40,11 +39,6 @@ class AppComponent extends React.Component {
         ArticleStore.listen(this.onArticleChange);
         CommentStore.listen(this.onCommentChange);
         FocusStore.listen(this.onFocusChange);
-
-        CommentActions.setComments(this.props.mockComments);
-        CommentActions.setLinks(this.props.mockLinks);
-        CommentActions.setSentences(this.props.mockSentences);
-        CommentActions.setSentenceRanking(this.props.mockRanking);
     }
 
     componentWillUnmount() {
