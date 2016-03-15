@@ -8,7 +8,7 @@ class CommentComponent extends Component {
     render() {
         const { isArticleSentence, author, replyTo, highlightSentence, previousSentence, nextSentence, clickHandler, focused } = this.props;
         return (
-            <div className={ "comment-component" + (focused ? " focused" : "" ) } onClick={ clickHandler }>
+            <div className={ 'comment-component' + (focused ? ' focused' : '' ) } onClick={ clickHandler }>
                 <div className="author-header">
                     <span className="author-name">@{ author }</span>
                     { isArticleSentence && <span className="author-article"> (Article Author)</span> }
