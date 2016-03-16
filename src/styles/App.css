@@ -9,15 +9,14 @@ body {
 
 .index {
     display: flex;
-    flex-direction: row;
-    min-height: 100%;
-    align-items: stretch;
+}
+
+.side-bar {
+    flex: 1 0 0;
 }
 
 .main-container {
-    display: flex;
-    order: 1;
-    flex-direction: column;
+    flex: 1.5 0 0;
 }
 
 .main-container h1 {
@@ -38,12 +37,6 @@ body {
     font-style: italic;
     color: #E0E0E0;
     font-size: 14px;
-}
-
-.side-bar {
-    display: flex;
-    order: 0;
-    flex: 0 0 500px;
 }
 
 .input {
