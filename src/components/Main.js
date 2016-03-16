@@ -3,8 +3,9 @@ require('styles/App.css');
 
 import React from 'react';
 import ArticleActions from 'actions/ArticleActions';
-import ArticleStore from 'stores/ArticleStore';
 import FocusActions from 'actions/FocusActions';
+import CommentActions from 'actions/CommentActions';
+import ArticleStore from 'stores/ArticleStore';
 import CommentStore from 'stores/CommentStore';
 import FocusStore from 'stores/FocusStore';
 import CommentComponent from 'components/CommentComponent';
@@ -39,6 +40,12 @@ class AppComponent extends React.Component {
         ArticleStore.listen(this.onArticleChange);
         CommentStore.listen(this.onCommentChange);
         FocusStore.listen(this.onFocusChange);
+
+        ArticleActions.setAuthorName(this.props.mockAuthorName);
+        CommentActions.setLinks(this.props.mockLinks);
+        CommentActions.setComments(this.props.mockComments);
+        CommentActions.setSentences(this.props.mockSentences);
+        CommentActions.setSentenceRanking(this.props.mockRanking);
     }
 
     componentWillUnmount() {
@@ -69,11 +76,37 @@ class AppComponent extends React.Component {
         }
     }
 
+    findCommentForSentence(sId) {
+        const { comments } = this.state;
+        for (let cId in comments) {
+            let comment = comments[cId];
+            let sentenceIndex = comment.sentences.indexOf(sId);
+            if (sentenceIndex !== -1) {
+                return comment;
+            }
+        }
+        return null;
+    }
+
     render() {
-        const { articleURL, loadingSummary, summaryErrorMsg, comments, focusedComment, sentences, sentenceRanking, sentenceLinks } = this.state;
+        const { articleURL, loadingSummary, summaryErrorMsg, authorName, comments, focusedComment, sentences, sentenceRanking, sentenceLinks } = this.state;
+
         let rankedSentences = sentenceRanking.map((sId) => {
-            for (let cId in comments) {
-                let comment = comments[cId];
+            let comment = this.findCommentForSentence(sId);
+
+            if (comment === null) {
+                // if the sentence is not found in any comment, it must belong to the article text
+                return (
+                    <CommentComponent
+                        key={ sId }
+                        isArticleSentence={ true }
+                        author={ authorName }
+                        highlightSentence={ sentences[sId] }
+                        clickHandler={ this.handleCommentClick.bind(this, sId) }
+                        focused={ sId === focusedComment } />
+                );
+            }
+            else {
                 let sentenceIndex = comment.sentences.indexOf(sId);
                 if (sentenceIndex !== -1) {
                     let prevSentId, nextSentId;
@@ -99,39 +132,50 @@ class AppComponent extends React.Component {
                     );
                 }
             }
-            // if the sentence is not found in any comment, it must belong to the article text
-            return (
-                <CommentComponent
-                    key={ sId }
-                    isArticleSentence={ true }
-                    author={ this.props.mockAuthorName }
-                    highlightSentence={ sentences[sId] }
-                    clickHandler={ this.handleCommentClick.bind(this, sId) }
-                    focused={ sId === focusedComment } />
-            );
+
         });
 
         let focusSidebar = null;
         if (focusedComment != null) {
             let sentence = sentences[focusedComment];
+            let comment = this.findCommentForSentence(focusedComment);
+            let author = null;
+            if (comment !== null) {
+                author = comment.bloggerId;
+            }
+            else {
+                author = authorName;
+            }
             let replies = sentenceLinks[focusedComment].map((r) => {
                 r.replySentence = sentences[r.reply];
+                let replyComment = this.findCommentForSentence(r.reply);
+                if (replyComment !== null) {
+                    let sentenceIndex = replyComment.sentences.indexOf(r.reply);
+                    if (sentenceIndex > 0) {
+                        r.replySentence = sentences[replyComment.sentences[sentenceIndex - 1]] + ' ' + r.replySentence;
+                    }
+                    if (sentenceIndex > 1) {
+                        r.replySentence = '… ' + r.replySentence;
+                    }
+                    if (sentenceIndex < replyComment.sentences.length - 1) {
+                        r.replySentence += ' ' + sentences[replyComment.sentences[sentenceIndex + 1]];
+                    }
+                    if (sentenceIndex < replyComment.sentences.length - 2) {
+                        r.replySentence += ' …';
+                    }
+                    r.replyAuthor = replyComment.bloggerId;
+                }
+                else {
+                    r.replyAuthor = authorName;
+                }
                 return r;
             });
-            let author = null;
-            for (let cId in comments) {
-                let comment = comments[cId];
-                let sentenceIndex = comment.sentences.indexOf(focusedComment);
-                if (sentenceIndex !== -1) {
-                    author = comment.bloggerId;
-                }
-            }
             focusSidebar = (
                 <FocusCommentComponent
                     sentence={ sentence }
                     replies={ replies }
                     closeHandler={ this.handleCloseFocus }
-                    author={ author ? author : this.props.mockAuthorName } />
+                    author={ author } />
             );
         }
         return (
@@ -472,16 +516,16 @@ AppComponent.defaultProps = {
             }
         ]
     },
-    mockRanking: {
-        's0': 4,
-        's53': 3,
-        's21': 2,
-        's61': 2,
-        's65': 2,
-        's82': 2,
-        's126': 2,
-        's157': 2
-    }
+    mockRanking: [
+        's0',
+        's53',
+        's21',
+        's61',
+        's65',
+        's82',
+        's126',
+        's157'
+    ]
 };
 
 export default AppComponent;

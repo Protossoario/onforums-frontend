@@ -14,15 +14,15 @@ class FocusCommentComponent extends Component {
         let renderReplies = replies.map((r, ind) => {
             if (r.argument == 'in_favour') {
                 return (
-                    <p key={ ind } className="comment agree"><FaThumbsUp /> { r.replySentence }</p>
+                    <p key={ ind } className="comment agree"><FaThumbsUp /> <span className="author-name">@{ r.replyAuthor }</span> { r.replySentence }</p>
                 );
             } else if (r.argument == 'against') {
                 return (
-                    <p key={ ind } className="comment disagree"><FaThumbsDown /> { r.replySentence }</p>
+                    <p key={ ind } className="comment disagree"><FaThumbsDown /> <span className="author-name">@{ r.replyAuthor }</span> { r.replySentence }</p>
                 );
             } else {
                 return (
-                    <p key={ ind } className="comment impartial"><FaComment /> { r.replySentence }</p>
+                    <p key={ ind } className="comment impartial"><FaComment /> <span className="author-name">@{ r.replyAuthor }</span> { r.replySentence }</p>
                 )
             }
         });

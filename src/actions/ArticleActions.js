@@ -1,6 +1,7 @@
 import alt from 'components/Dispatcher';
 import axios from 'axios';
 import CommentActions from 'actions/CommentActions';
+import FocusActions from 'actions/FocusActions';
 
 class ArticleActions {
     constructor() {
@@ -13,6 +14,7 @@ class ArticleActions {
 
     summarize(articleURL) {
         this.loadingSummary();
+        FocusActions.setFocusedComment(null);
         axios.post('/summarize', {
             url: articleURL
         })
